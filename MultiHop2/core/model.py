@@ -7,6 +7,7 @@ from core.utils import Timer
 from keras.layers import Dense, Activation, Dropout, LSTM
 from keras.models import Sequential, load_model
 from keras.callbacks import EarlyStopping, ModelCheckpoint
+from keras import regularizers
 
 class Model():
 	"""A class for an building and inferencing an lstm model"""
@@ -29,11 +30,20 @@ class Model():
 			return_seq = layer['return_seq'] if 'return_seq' in layer else None
 			input_timesteps = layer['input_timesteps'] if 'input_timesteps' in layer else None
 			input_dim = layer['input_dim'] if 'input_dim' in layer else None
+			recurrent_reg_l1 = layer['recur_l1'] if 'recur_l1' in layer else 0.0
+			recurrent_reg_l2 = layer['recur_l2'] if 'recur_l2' in layer else 0.0
+			kernel_reg_l1 = layer['kernel_l1'] if 'kernel_l1' in layer else 0.0
+			kernel_reg_l2 = layer['kernel_l2'] if 'kernel_l2' in layer else 0.0
+			r_d = layer['recurrent_dropout'] if 'recurrent_dropout' in layer else 0.0
 
 			if layer['type'] == 'dense':
-				self.model.add(Dense(neurons, activation=activation))
+				self.model.add(Dense(neurons, activation=activation, 
+                                    kernel_regularizer=regularizers.l1_l2(l1=kernel_reg_l1 , l2=kernel_reg_l2)))
 			if layer['type'] == 'lstm':
-				self.model.add(LSTM(neurons, input_shape=(input_timesteps, input_dim), return_sequences=return_seq))
+				self.model.add(LSTM(neurons, input_shape=(input_timesteps, input_dim), return_sequences=return_seq, 
+                                    recurrent_regularizer=regularizers.l1_l2(l1=recurrent_reg_l1 , l2=recurrent_reg_l2),
+                                    kernel_regularizer=regularizers.l1_l2(l1=kernel_reg_l1 , l2=kernel_reg_l2),
+                                    recurrent_dropout=r_d))
 			if layer['type'] == 'dropout':
 				self.model.add(Dropout(dropout_rate))
 
