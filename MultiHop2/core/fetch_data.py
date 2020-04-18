@@ -137,7 +137,9 @@ def get_trends_data(stock_data, words, ticker, start, end, folder):
 ticker = "VOX"
 # words = ["recession"]
 
-file_object  = open(ticker+'_words.txt', 'r')
+# file_object  = open(ticker+'_words.txt', 'r')
+file_object  = open('finance_words.txt', 'r')
+
 Lines = file_object.readlines()
 words = []
 for line in Lines:

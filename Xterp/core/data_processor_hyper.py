@@ -17,7 +17,6 @@ class DataLoader():
         dataframe = pd.read_csv(filename)  #reads the data csv
 
         i_split_train = int(len(dataframe) * (split-0.15))
-        print(i_split_train)
         i_split_valid = int(len(dataframe) * (0.15)) + i_split_train #sets how to split data between training and test
 
 
@@ -48,7 +47,6 @@ class DataLoader():
         data_windows = []
         for i in range(self.len_test - seq_len):
 
-            print('get test i',i)
 
 
             data_windows.append(self.data_test[i:i+seq_len])

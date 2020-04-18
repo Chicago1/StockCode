@@ -27,7 +27,8 @@ from core.model_hyper import LSTMHyperModel
 
 from kerastuner.tuners import Hyperband
 
-from numpy import newaxis
+from core.evaluate_model import predict_point_by_point
+from core.evaluate_model import predict_sequences_multiple
 
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True' #setting that lets tensorflow run
@@ -53,12 +54,17 @@ def plot_results_multiple(predicted_data, true_data, prediction_len, ticker, isT
     dataframe = pd.read_csv(filename)
     i_split = int(len(dataframe) * split) + prediction_len
 
-    dates = mdates.date2num(pd.to_datetime(dataframe.iloc[i_split:len(dataframe), 0]))
+    dates = mdates.date2num(pd.to_datetime(dataframe.iloc[i_split-1:len(dataframe), 0]))
+
+    print(len(dates))
+    print(len(predicted_data))
+
 
 	# Pad the list of predictions to shift it in the graph to it's correct start
     for i, data in enumerate(predicted_data):
         padding = [None for p in range(i * prediction_len)]
         plt.plot_date(dates[0:(i+1) * prediction_len], np.transpose(np.array(padding + data)), label='Prediction', fmt="-")
+
 
 
     months = mdates.MonthLocator()  # every month
@@ -102,7 +108,7 @@ def plot_training(predicted_data, true_data, prediction_len, ticker, isTrends, f
 
 
     dataframe = pd.read_csv(filename)
-    i_split = int(len(dataframe) * split)
+    i_split = int(len(dataframe) * (split-0.15))
 
     dates = mdates.date2num(pd.to_datetime(dataframe.iloc[0:i_split-prediction_len, 0]))
 
@@ -270,13 +276,8 @@ def main():
         normalise=configs['data']['normalise']
     )
 
-    print("x_test")
-    print(x_test)
-    print("-----")
-    print("y_test")
-    print(y_test)
 
-    predictions = best_model.predict_sequences_multiple(x_test, configs['data']['sequence_length'], configs['data']['sequence_length'])
+    predictions = predict_sequences_multiple(best_model,x_test, configs['data']['sequence_length'], configs['data']['sequence_length'])
 
 
     # predictions = model.predict_sequence_full(x_test, configs['data']['sequence_length'])
@@ -287,7 +288,7 @@ def main():
 
     x_train, y_train = data.get_train_data(seq_len=configs['data']['sequence_length'], normalise=configs['data']['normalise'])
 
-    train_predictions = best_model.predict_point_by_point(x_train)
+    train_predictions = predict_point_by_point(best_model,x_train)
 
     plot_training(train_predictions, y_train, configs['data']['sequence_length'], stockTicker, True, configs['data']['filename'],  configs['data']['train_test_split'])
 

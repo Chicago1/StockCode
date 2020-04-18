@@ -15,7 +15,7 @@ ax = fig.add_subplot(111)
 
 for file in os.listdir():
      filename = os.fsdecode(file)
-     if filename.endswith("X.csv")  or filename.endswith("uct.csv"):
+     if filename.endswith("X.csv")  or filename.endswith("PUS.csv"):
          print(os.path.join(filename))
          new_data = pd.read_csv(os.path.join(filename))
          x_data = new_data[new_data.columns[0]]

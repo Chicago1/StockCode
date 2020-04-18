@@ -27,7 +27,7 @@ def predict_point_by_point(model, data):
     predicted = np.reshape(predicted, (predicted.size,))
     return predicted
     
-def predict_sequences(model, data, window_size, prediction_len):
+def predict_sequences_multiple(model, data, window_size, prediction_len):
     print('[Model] Predicting Sequences Multiple...')
     prediction_seqs = []
     for i in range(int(len(data)/prediction_len)):
