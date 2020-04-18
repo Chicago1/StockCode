@@ -13,14 +13,9 @@
 			"Industrial REITs",
 			"Real Estate Development",
 			"Residential REITs",
-			"Retail REITs",
-			"ICSA",
-			"UNRATE",
-			"APSUS",
-			"HSN1F",
-			"MSPUS"
+			"Retail REITs"
 		],
-		"sequence_length": 14,
+		"sequence_length": 11,
 		"train_test_split": 0.85,
 		"normalise": true
 	},
@@ -36,8 +31,8 @@
 			{
 				"type": "lstm",
 				"neurons": 200,
-				"input_timesteps": 13,
-				"input_dim": 17,
+				"input_timesteps": 10,
+				"input_dim": 12,
 				"return_seq": true
 			},
 			{
