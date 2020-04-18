@@ -27,6 +27,8 @@ from core.model_hyper import LSTMHyperModel
 
 from kerastuner.tuners import Hyperband
 
+from numpy import newaxis
+
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True' #setting that lets tensorflow run
 
