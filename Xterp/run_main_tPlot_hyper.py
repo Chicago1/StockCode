@@ -30,6 +30,9 @@ from kerastuner.tuners import Hyperband
 from core.evaluate_model import predict_point_by_point
 from core.evaluate_model import predict_sequences_multiple
 
+from tensorflow.keras.models import Sequential, load_model
+
+
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True' #setting that lets tensorflow run
 
@@ -252,30 +255,12 @@ def main():
     # loss, accuracy = best_model.evaluate(x_test, y_test)
 
 
-    # # out-of memory generative training
-    # steps_per_epoch = math.ceil((data.len_train - configs['data']['sequence_length']) / configs['training']['batch_size'])
-    # model.train_generator(
-    #     data_gen=data.generate_train_batch(
-    #         seq_len=configs['data']['sequence_length'],
-    #         batch_size=configs['training']['batch_size'],
-    #         normalise=configs['data']['normalise']
-    #     ),
-    #     epochs=configs['training']['epochs'],
-    #     batch_size=configs['training']['batch_size'],
-    #     steps_per_epoch=steps_per_epoch,
-    #     save_dir=configs['model']['save_dir']
-    # )
-
-    # in-memory training
-    # model.train(model, x_train, y_train, epochs=configs['training']['epochs'], batch_size=configs['training']['batch_size'],
-    #     #             save_dir=configs['model']['save_dir'])
-
-
     x_test, y_test = data.get_test_data(
         seq_len=configs['data']['sequence_length'],
         normalise=configs['data']['normalise']
     )
 
+    best_model = load_model('best_model.h5') #the model to run gets loaded here
 
     predictions = predict_sequences_multiple(best_model,x_test, configs['data']['sequence_length'], configs['data']['sequence_length'])
 
