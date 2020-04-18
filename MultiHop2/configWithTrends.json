@@ -1,26 +1,12 @@
 {
 	"data": {
-		"filename": "data/joined.csv",
-		"columns": [
-			"Close",
-			"Open",
-			"High",
-			"Low",
-			"Volume",
-			"Advertising",
-			"Alternative Carriers",
-			"Broadcasting",
-			"Cable",
-			"Interactive Media",
-			"Movies"
-
-		],
+		"filename": "data/VOX1585761305.csv",
 		"sequence_length": 10,
 		"train_test_split": 0.85,
 		"normalise": true
 	},
 	"training": {
-		"epochs": 10,
+		"epochs": 7,
 		"batch_size": 32
 	},
 	"model": {
@@ -32,8 +18,13 @@
 				"type": "lstm",
 				"neurons": 100,
 				"input_timesteps": 9,
-				"input_dim": 11,
-				"return_seq": true
+				"input_dim": 8,
+				"return_seq": true,
+				"recur_l1": 0.00,
+				"recur_l2": 0.00,
+				"kernel_l2": 0.0,
+				"kernel_l2": 0.0,
+				"recurrent_dropout": 0.0
 			},
 			{
 				"type": "dropout",
@@ -42,12 +33,22 @@
 			{
 				"type": "lstm",
 				"neurons": 100,
-				"return_seq": true
+				"return_seq": true,
+				"recur_l1": 0.00,
+				"recur_l2": 0.00,
+				"kernel_l2": 0.0,
+				"kernel_l2": 0.0,
+				"recurrent_dropout": 0.0
 			},
 			{
 				"type": "lstm",
 				"neurons": 100,
-				"return_seq": false
+				"return_seq": false,
+				"recur_l1": 0.0,
+				"recur_l2": 0.0,
+				"kernel_l2": 0.0,
+				"kernel_l2": 0.0,
+				"recurrent_dropout": 0.0
 			},
 			{
 				"type": "dropout",
@@ -56,7 +57,9 @@
 			{
 				"type": "dense",
 				"neurons": 1,
-				"activation": "linear"
+				"activation": "linear",
+				"kernel_l2": 0.0,
+				"kernel_l2": 0.0
 			}
 		]
 	}
