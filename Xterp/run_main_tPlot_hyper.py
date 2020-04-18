@@ -215,7 +215,7 @@ def main():
     tuner = Hyperband(
         LSTMHyperModel(),
         objective = 'val_loss',
-        max_epochs = 20,
+        max_epochs = 50,
     )
 
 
@@ -230,6 +230,17 @@ def main():
     )
 
     tuner.search(x_train,y_train,epochs = 20, validation_data = (x_valid,y_valid))
+
+    # Show a summary of the search
+    tuner.results_summary()
+
+    # Retrieve the best model.
+    best_model = tuner.get_best_models(num_models=1)[0]
+
+    best_model.save('best_model.h5')
+
+    # Evaluate the best model.
+    # loss, accuracy = best_model.evaluate(x_test, y_test)
 
     sys.exit(88)
 
@@ -248,17 +259,8 @@ def main():
     # )
 
     # in-memory training
-    model.train(model, x_train, y_train, epochs=configs['training']['epochs'], batch_size=configs['training']['batch_size'],
-                save_dir=configs['model']['save_dir'])
-
-
-
-
-
-
-
-
-
+    # model.train(model, x_train, y_train, epochs=configs['training']['epochs'], batch_size=configs['training']['batch_size'],
+    #     #             save_dir=configs['model']['save_dir'])
 
 
     x_test, y_test = data.get_test_data(
