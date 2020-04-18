@@ -242,7 +242,6 @@ def main():
     # Evaluate the best model.
     # loss, accuracy = best_model.evaluate(x_test, y_test)
 
-    sys.exit(88)
 
     # # out-of memory generative training
     # steps_per_epoch = math.ceil((data.len_train - configs['data']['sequence_length']) / configs['training']['batch_size'])
@@ -274,7 +273,7 @@ def main():
     print("y_test")
     print(y_test)
 
-    predictions = model.predict_sequences_multiple(x_test, configs['data']['sequence_length'], configs['data']['sequence_length'])
+    predictions = LSTMHyperModel.predict_sequences_multiple(best_model,x_test, configs['data']['sequence_length'], configs['data']['sequence_length'])
 
 
     # predictions = model.predict_sequence_full(x_test, configs['data']['sequence_length'])
@@ -285,7 +284,7 @@ def main():
 
     x_train, y_train = data.get_train_data(seq_len=configs['data']['sequence_length'], normalise=configs['data']['normalise'])
 
-    train_predictions = model.predict_point_by_point(x_train)
+    train_predictions = LSTMHyperModel.predict_point_by_point(best_model,x_train)
 
     plot_training(train_predictions, y_train, configs['data']['sequence_length'], stockTicker, True, configs['data']['filename'],  configs['data']['train_test_split'])
 
