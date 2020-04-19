@@ -46,7 +46,7 @@ class LSTMHyperModel(HyperModel):
 				self.model.add(LSTM(units=hp.Int(
 									'neurons',
 									min_value=20,
-									max_value=300,
+									max_value=600,
 									step=10,
 									default=neurons),
 								input_shape=(input_timesteps, input_dim),
@@ -56,7 +56,7 @@ class LSTMHyperModel(HyperModel):
 									'dropout_rate',
 									min_value=0.0,
 									max_value=0.5,
-									step = 0.05,
+									step = 0.01,
 									default=dropout_rate
 				)))
 

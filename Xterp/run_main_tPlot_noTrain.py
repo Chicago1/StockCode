@@ -90,9 +90,8 @@ def plot_results_multiple(predicted_data, true_data, prediction_len, ticker, isT
         padding = [None for p in range(i * prediction_len)]
         plt.plot_date(dates[0:(i+1) * prediction_len], np.transpose(np.array(padding + data)), label='Prediction', fmt="-")
 
-
-    months = mdates.MonthLocator()  # every month
-    months_fmt = mdates.DateFormatter('%Y-%m')
+    months = mdates.WeekdayLocator()  # every month
+    months_fmt = mdates.DateFormatter('%Y-%m-%d')
 
     plt.plot_date(dates, true_data, fmt="-", color="cornflowerblue", linewidth="0.5")
 
@@ -107,16 +106,14 @@ def plot_results_multiple(predicted_data, true_data, prediction_len, ticker, isT
 
     fig.autofmt_xdate()
 
-
     if isTrends:
-        plt.title(str(ticker)+" with Trends")
-        plt.savefig(str(ticker)+"_with_Trends.png")
+        plt.title(str(ticker) + " with Trends")
+        plt.savefig(str(ticker) + "_with_Trends.png")
         print("saved")
     else:
-        plt.title(str(ticker)+" without Trends")
-        plt.savefig(str(ticker)+"_without_Trends.png")
+        plt.title(str(ticker) + " without Trends")
+        plt.savefig(str(ticker) + "_without_Trends.png")
         print("saved")
-
 
     plt.show()
 
@@ -246,7 +243,7 @@ def main():
         normalise=configs['data']['normalise']
     )
 
-    predictions = model.predict_point_by_point(x_test)
+    predictions = model.predict_sequences_multiple(x_test,configs['data']['sequence_length'],configs['data']['sequence_length'])
 
 
     # predictions = model.predict_sequence_full(x_test, configs['data']['sequence_length'])
@@ -256,9 +253,10 @@ def main():
     stockTicker = "VNQ"
     # plot_results(predictions, y_test)
 
-    plot_results(predictions, y_test,configs['data']['sequence_length'], stockTicker, True, configs['data']['filename'], configs['data']['train_test_split'])
+    plot_results_multiple(predictions, y_test,configs['data']['sequence_length'], stockTicker, True, configs['data']['filename'], configs['data']['train_test_split'])
 
 
+    print(len(y_test))
 
     sys.exit(99)
 

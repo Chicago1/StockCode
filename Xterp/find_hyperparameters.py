@@ -68,7 +68,7 @@ if not os.path.exists(configs['model']['save_dir']): os.makedirs(configs['model'
 tuner = RandomSearch(
     LSTMHyperModel(),
     objective = 'val_loss',
-    max_trials = 100
+    max_trials = 10000
 )
 
 
@@ -82,7 +82,7 @@ x_valid, y_valid = data.get_valid_data(
     normalise=configs['data']['normalise']
 )
 
-# tuner.search(x_train,y_train, validation_data = (x_valid,y_valid),epochs = 200)
+tuner.search(x_train,y_train, validation_data = (x_valid,y_valid),epochs = 200)
 
 # Show a summary of the search
 tuner.results_summary()
