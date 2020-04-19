@@ -15,12 +15,12 @@
 			"Residential REITs",
 			"Retail REITs"
 		],
-		"sequence_length": 11,
-		"train_test_split": 0.85,
+		"sequence_length": 7,
+		"train_test_split": 0.95,
 		"normalise": true
 	},
 	"training": {
-		"epochs": 12,
+		"epochs": 200,
 		"batch_size": 32
 	},
 	"model": {
@@ -30,23 +30,23 @@
 		"layers": [
 			{
 				"type": "lstm",
-				"neurons": 200,
-				"input_timesteps": 10,
+				"neurons": 300,
+				"input_timesteps": 6,
 				"input_dim": 12,
 				"return_seq": true
 			},
 			{
 				"type": "dropout",
-				"rate": 0.1
+				"rate": 0.2
 			},
 			{
 				"type": "lstm",
-				"neurons": 200,
+				"neurons": 300,
 				"return_seq": true
 			},
 			{
 				"type": "lstm",
-				"neurons": 200,
+				"neurons": 300,
 				"return_seq": false
 			},
 			{

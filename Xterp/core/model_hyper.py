@@ -45,9 +45,9 @@ class LSTMHyperModel(HyperModel):
 			if layer['type'] == 'lstm':
 				self.model.add(LSTM(units=hp.Int(
 									'neurons',
-									min_value=50,
+									min_value=20,
 									max_value=300,
-									step=50,
+									step=10,
 									default=neurons),
 								input_shape=(input_timesteps, input_dim),
 								return_sequences=return_seq))

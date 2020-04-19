@@ -25,12 +25,14 @@ import time
 from core.data_processor_hyper import DataLoader #no error, from the core folder
 from core.model_hyper import LSTMHyperModel
 
-from kerastuner.tuners import Hyperband
+from kerastuner.tuners import RandomSearch
 
 from core.evaluate_model import predict_point_by_point
 from core.evaluate_model import predict_sequences_multiple
 
 from tensorflow.keras.models import Sequential, load_model
+
+from tensorflow.keras.callbacks import EarlyStopping
 
 
 
@@ -63,10 +65,10 @@ if not os.path.exists(configs['model']['save_dir']): os.makedirs(configs['model'
 
 #TODO: Make Bayesian happen
 
-tuner = Hyperband(
+tuner = RandomSearch(
     LSTMHyperModel(),
     objective = 'val_loss',
-    max_epochs = 50,
+    max_trials = 100
 )
 
 
@@ -80,10 +82,10 @@ x_valid, y_valid = data.get_valid_data(
     normalise=configs['data']['normalise']
 )
 
-tuner.search(training_data = (x_train,y_train), validation_data = (x_valid,y_valid))
+# tuner.search(x_train,y_train, validation_data = (x_valid,y_valid),epochs = 200)
 
 # Show a summary of the search
-# tuner.results_summary()
+tuner.results_summary()
 
 
 best_hps = tuner.get_best_hyperparameters()[0]
