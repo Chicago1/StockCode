@@ -1,0 +1,16 @@
+Date Range is 2013-4-15
+	   to 2013-4-09
+
+VOX:
+vox_price.csv: VOX price only (daily close)
+vox_vox.csv: VOX daily open, high, low, close, volume
+vox_words.csv: vox_vox + Google search frequency data for set of words
+vox_weather.csv: vox_vox + Weather data (high, low, precipitation) in top 5 populous US cities
+vox_fred.csv: vox_vox + St. Lous FRED data (top-10 searched series)
+
+VNQ: (real estate index)
+vnq_price.csv: VNQ price only (daily close)
+vnq_vnq.csv: VNQ daily open, high, low, close, volume
+vnq_words.csv: vnq_vnq + Google search frequency data for set of words
+vnq_weather.csv: vnq_vnq + Weather data (high, low, precipitation) in top 5 populous US cities
+vnq_fred.csv: vnq_vnq + St. Lous FRED data (top-10 searched series)
